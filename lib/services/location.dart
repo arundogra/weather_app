@@ -9,10 +9,10 @@ class Location {
     try {
       Geolocator.requestPermission();
       Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.low);
+          desiredAccuracy: LocationAccuracy.high);
       latitide = position.latitude;
       longitude = position.longitude;
-      print(position);
+      // print(position);
     }
     catch (e) {
       print(e);

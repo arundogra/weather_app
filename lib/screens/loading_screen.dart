@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weatherapp/services/networking.dart';
 import '../services/location.dart';
+import 'location_screen.dart';
 
 const apiKey = 'a2821380a396d4fcdb70b99d8c59c36a';
 
@@ -27,24 +29,23 @@ class _LoadingScreenState extends State<LoadingScreen> {
     await location.getCurrentLocation();
     longitude = location.longitude;
     latitude = location.latitide;
-    NetworkHelper networkHelper = NetworkHelper('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&$longitude=139&appid=$apiKey');
+    NetworkHelper networkHelper = NetworkHelper('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric');
 
     var weatherData = await networkHelper.getData();
+    Navigator.push(context, MaterialPageRoute(builder: (context){
+      return LocationScreen(locationWeather: weatherData);
+    }));
   }
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-      appBar: AppBar(
-        title: Text(
-            'Weather App',
-            style: TextStyle(
-                fontSize: 24,
-                letterSpacing: 2,
-                fontWeight: FontWeight.bold
-            ),
-        ),
+  return const Scaffold(
+    body: Center(
+      child: SpinKitChasingDots(
+        color: Colors.yellowAccent,
+        // size: 100.0,
       ),
+    ),
     );
   }
 }
